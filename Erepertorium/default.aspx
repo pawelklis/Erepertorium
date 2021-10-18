@@ -19,7 +19,7 @@
         .modaltlo {
             width: 100%;
             height: 100vh;
-            background-color: #212529;
+            background-color: whitesmoke;
             position: absolute;
             top: 0px;
             left: 0px;
@@ -87,7 +87,7 @@
     <div class="container" style="width: 100%!important; max-width: 100%;">
         <div class="row" style="width: 100%!important;">
 
-            <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+            <nav class="navbar navbar-expand-sm navbar-light bg-light">
                 <div class="container-fluid">
                       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
       <span class="navbar-toggler-icon"></span>
@@ -100,7 +100,7 @@
                             <tr>
                                 <td>
                                     <div class="dropdown" style="position: relative; top: 10%; left: 0%;">
-                                        <button type="button" class="btn btn-outline-danger dropdown-toggle" data-bs-toggle="dropdown">
+                                        <button type="button" class="btn btn-outline-success dropdown-toggle" data-bs-toggle="dropdown">
                                             Dodaj pozycje
                                         </button>
                                         <ul class="dropdown-menu">
@@ -138,8 +138,8 @@
                                 </td>
                                 <td>
                                     <div class="input-group">
-                                        <span class="input-group-text btn-outline-danger" style="background-color: transparent;">Dane z dnia:</span>
-                                        <asp:TextBox ID="txDate" CssClass="btn btn-outline-danger" Style="z-index: 1;" runat="server" TextMode="Date"></asp:TextBox>
+                                        <span class="input-group-text btn-outline-success" style="background-color: transparent;">Dane z dnia:</span>
+                                        <asp:TextBox ID="txDate" CssClass="btn btn-outline-success" Style="z-index: 1;" runat="server" TextMode="Date"></asp:TextBox>
                                     </div>
 
 
@@ -147,11 +147,11 @@
 
                                 </td>
                                 <td>
-                                    <asp:CheckBox ID="ckdeleted" CssClass="btn btn-outline-danger" runat="server" Text="Wyświetl usunięte pozycje" />
+                                    <asp:CheckBox ID="ckdeleted" CssClass="btn btn-outline-success" runat="server" Text="Wyświetl usunięte pozycje" />
 
                                 </td>
                                 <td>
-                                    <asp:CheckBox ID="ckmy" CssClass="btn btn-outline-danger" runat="server" Text="Wyświetl tylko moje pozycje" />
+                                    <asp:CheckBox ID="ckmy" CssClass="btn btn-outline-success" runat="server" Text="Wyświetl tylko moje pozycje" />
 
                                 </td>
                             </tr>
@@ -265,7 +265,7 @@
                         </ContentTemplate>
                     </asp:UpdatePanel>
                     
-                    <asp:GridView ID="dg3" CssClass="table table-hover table-dark "  runat="server" style="z-index: 10;" AutoGenerateColumns="false" OnRowDataBound="dg3_RowDataBound" OnRowCommand="dg3_RowCommand">
+                    <asp:GridView ID="dg3" CssClass="table table-hover table-light "  runat="server" style="z-index: 10;" AutoGenerateColumns="false" OnRowDataBound="dg3_RowDataBound" OnRowCommand="dg3_RowCommand">
 
 
                         <Columns>

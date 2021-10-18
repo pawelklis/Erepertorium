@@ -27,7 +27,13 @@
 
 
             <!-- The Modal -->
-    <asp:Panel runat="server" class="modaltlo" ID="myModal" Visible="false" Style="opacity: 1;">
+    <asp:Panel runat="server" class="modaltlo" ID="myModal" Visible="false" Style="opacity: 1;          width: 100%;
+            height: 100vh;
+            background-color: whitesmoke;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            z-index: 2;">
         <div class="modal-dialog modal-xl">
             <div class="modal-content" style="background-color: silver; height: 80vh;">
 
@@ -92,7 +98,7 @@
     </asp:Panel>
 
 
-<nav class="navbar navbar-expand-sm navbar-dark bg-dark" style="border-bottom-style:solid;border-bottom-color:silver;">
+<nav class="navbar navbar-expand-sm navbar-light bg-light" style="border-bottom-style:solid;border-bottom-color:silver;">
   <div class="container-fluid">
     <a id="a1" runat="server"  onserverclick="a1_ServerClick" class="navbar-brand" href="javascript:void(0)"  >E-repertorium</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
@@ -112,7 +118,7 @@
       </ul>
       <div class="d-flex">
         <asp:textbox ID="txSearch" runat="server" cssclass="form-control me-2" style="font-size:12px;" type="text" Width="300" placeholder="Numer lub szukana fraza lub data [rrrr-mm-dd]"></asp:textbox>
-        <asp:Button ID="btnSearch" runat="server" OnClick="btnSearch_Click" class="btn btn-outline-danger" type="button" Text="Znajdź"></asp:Button>
+        <asp:Button ID="btnSearch" runat="server" OnClick="btnSearch_Click" class="btn btn-outline-success" type="button" Text="Znajdź"></asp:Button>
       </div>
 
 
@@ -125,7 +131,7 @@
 
 
 
-        <div style="height:calc(100vh - 69px);background-color:#212529">
+        <div style="height:calc(100vh - 69px);background-color:whitesmoke">
             <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
             </asp:ContentPlaceHolder>
         </div>

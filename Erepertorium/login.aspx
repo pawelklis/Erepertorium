@@ -46,7 +46,7 @@
                     top: 9%;
                     left: 5%;
                     font-size: 100px;
-                    color: white;
+                    color: black;
                 }
                 .immctn {
                     border-style: solid;
