@@ -1,0 +1,16 @@
+﻿:root {
+    --darkbg: #ffffff;
+    --btnbg: #000000;
+    --tabletext: #000000;
+    --tablehoverbg: #808080;
+    --othertextcolor: #000000;
+    /* #212529 ciemny motyw  przyciski:  #dc3545 */
+    /*
+        ciemny:
+    --darkbg: #212529;
+    --btnbg: #dc3545;
+    --tabletext: #ffffff;
+    --tablehoverbg: #494141;
+    --othertextcolor:#ffffff;
+*/
+}

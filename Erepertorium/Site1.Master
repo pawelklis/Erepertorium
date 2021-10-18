@@ -1,0 +1,134 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site1.master.cs" Inherits="Erepertorium.Site1" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server" style="width:100%;">
+    <title> E-repertorium</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script src="Scripts/jquery-3.6.0.min.js"></script>
+    <link href="Content/bootstrap.min.css" rel="stylesheet" />
+    <script src="Scripts/bootstrap.bundle.min.js"></script>
+    <link href="declares.css" rel="stylesheet" />
+
+    <asp:ContentPlaceHolder ID="head" runat="server">
+
+
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+            <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
+
+   
+
+
+            <!-- The Modal -->
+    <asp:Panel runat="server" class="modaltlo" ID="myModal" Visible="false" Style="opacity: 1;">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content" style="background-color: silver; height: 80vh;">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Znalezione pozycje repertorium</h4>
+                    <asp:Button ID="ModalClose" runat="server" type="button" class="btn-close" data-bs-dismiss="modal" OnClick="ModalClose_Click"></asp:Button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body" style="overflow: auto; background-color: whitesmoke;">
+                    <asp:GridView ID="dg1" CssClass="table table-light table-hover" runat="server" AutoGenerateColumns="false" OnRowDataBound="dg1_RowDataBound">
+                        <Columns>
+                            <asp:TemplateField>
+                                <HeaderTemplate>
+                                    <asp:Label ID="Label1" runat="server" Text="Numer"></asp:Label>
+                                </HeaderTemplate>
+                                <ItemTemplate>
+                                    <asp:Label ID="Label3" runat="server" Style="font-size: 20px; font-weight: 600;" Text='<%#Eval("number")%>'></asp:Label>
+                                    <asp:Label ID="lbo1" runat="server"  Style="font-size: 12px; font-weight: 200;" Text="Utworzono dnia: "></asp:Label>
+                                    <asp:Label ID="Label2" runat="server" Style="font-size: 12px; font-weight: 200;" Text='<%#Eval("date")%>'></asp:Label>
+                                    <asp:Label ID="Label5" runat="server" Style="font-size: 12px; font-weight: 200;" Text="Użytkownik: "></asp:Label>
+                                    <asp:Label ID="Label4" runat="server" Style="font-size: 12px; font-weight: 200;" Text= '<%#Eval("user")%>'></asp:Label>
+                                    <br />
+                                    <asp:Label ID="tx1" runat="server" TextMode="MultiLine" Style="width: 100%; height: 90%;" Text='<%#Eval("content") %>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+
+                            <asp:TemplateField ItemStyle-Width="300" Visible="true">
+                                <HeaderTemplate>
+                                     <asp:Label ID="lbo13" runat="server"  Text="Historia"></asp:Label>
+                                </HeaderTemplate>
+                                <ItemTemplate>
+                                    <asp:Label ID="lbh" runat="server"  Text='<%#Eval("hist") %>' style="font-size:12px;"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+
+                            <asp:TemplateField ItemStyle-Width="60" Visible="false">
+                                <HeaderTemplate>
+                                </HeaderTemplate>
+                                <ItemTemplate>
+                                    <asp:ImageButton ID="ImageButton1" ImageUrl="~/images/edit.png" Style="width: 30px; height: 30px;" CommandArgument='<%#Eval("id") %>' runat="server" />
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                        </Columns>
+                    </asp:GridView>
+
+
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+
+<%--                    <asp:Button ID="btnDeletemodal" runat="server" OnClick="btnDeletemodal_Click" type="button" class="btn btn-danger" data-bs-dismiss="modal" Text="Usuń wpisy"></asp:Button>
+                    <asp:Button ID="btncancelmodal" runat="server" OnClick="btncancelmodal_Click" type="button" class="btn btn-danger" data-bs-dismiss="modal" Text="Anuluj"></asp:Button>
+                    <asp:Button ID="btnSaveModal" runat="server" class="btn btn-success" OnClick="btnSaveModal_Click" Text="Zatwierdź"></asp:Button>--%>
+                    <asp:Label ID="des" runat="server" Text=""></asp:Label>
+                </div>
+
+            </div>
+        </div>
+    </asp:Panel>
+
+
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark" style="border-bottom-style:solid;border-bottom-color:silver;">
+  <div class="container-fluid">
+    <a id="a1" runat="server"  onserverclick="a1_ServerClick" class="navbar-brand" href="javascript:void(0)"  >E-repertorium</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="mynavbar">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a id="a2" runat="server" onserverclick="a2_ServerClick" class="nav-link" href="javascript:void(0)"  >Raporty</a>
+        </li>
+        <li class="nav-item">
+          <a id="a4" runat="server" onserverclick="a4_ServerClick" class="nav-link" href="javascript:void(0)"  >Statystyki</a>
+        </li>
+        <li class="nav-item">
+          <a id="a3" runat="server" onserverclick="a3_ServerClick" class="nav-link" href="javascript:void(0)"  >Administracja</a>
+        </li>
+      </ul>
+      <div class="d-flex">
+        <asp:textbox ID="txSearch" runat="server" cssclass="form-control me-2" style="font-size:12px;" type="text" Width="300" placeholder="Numer lub szukana fraza lub data [rrrr-mm-dd]"></asp:textbox>
+        <asp:Button ID="btnSearch" runat="server" OnClick="btnSearch_Click" class="btn btn-outline-danger" type="button" Text="Znajdź"></asp:Button>
+      </div>
+
+
+    <a class="navbar-brand" href="#" runat="server">
+        <asp:ImageButton ID="ImageButton2" ImageUrl="~/images/usr.png" style="width:40px;margin-left:10px;" class="rounded-pill" OnClick="ImageButton2_Click"  runat="server" />
+    </a>
+    </div>
+  </div>
+</nav>
+
+
+
+        <div style="height:calc(100vh - 69px);background-color:#212529">
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+            </asp:ContentPlaceHolder>
+        </div>
+    </form>
+</body>
+</html>
