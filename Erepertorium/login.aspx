@@ -27,7 +27,7 @@
                     width: 100%;
                     height: 99vh;
                     z-index: 100;
-                    background-color: #212529;
+                    background-color: white;
                     top: 0px;
                     
                 }
@@ -60,6 +60,7 @@
                     position: absolute;
                     bottom: 30%;
                     left: 15%;
+                    background-color:dimgray;
                 }
 
                 .inps {
@@ -112,11 +113,11 @@
 
                             <div class="inps" style="">
 
-                                <asp:TextBox ID="txlogin" CssClass="btn btn-outline-danger" runat="server" placeholder="Login" Width="230"></asp:TextBox>
+                                <asp:TextBox ID="txlogin" CssClass="btn btn-outline-success" runat="server" placeholder="Login" Width="230"></asp:TextBox>
                                 <br />
-                                <asp:TextBox ID="txpassword" CssClass="btn btn-outline-danger" runat="server" TextMode="Password" Width="230" placeholder="Hasło"></asp:TextBox>
+                                <asp:TextBox ID="txpassword" CssClass="btn btn-outline-success" runat="server" TextMode="Password" Width="230" placeholder="Hasło"></asp:TextBox>
                                 <br />
-                                <asp:Button ID="btnLogin" runat="server" Text="Zaloguj" class="btn btn-outline-danger" Style="width: 230px;" OnClick="btnLogin_Click" value="Zaloguj" />
+                                <asp:Button ID="btnLogin" runat="server" Text="Zaloguj" class="btn btn-outline-success" Style="width: 230px;" OnClick="btnLogin_Click" value="Zaloguj" />
 
 
                         </div>
