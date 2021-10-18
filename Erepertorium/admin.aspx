@@ -78,8 +78,8 @@
                                     <asp:Label ID="Label4" runat="server" Text=""></asp:Label>
                                 </HeaderTemplate>
                                 <ItemTemplate>                                    
-                                    <asp:Button ID="Button1" CssClass="btn btn-outline-warning" runat="server" Text="Wygeneruj hasło" CommandName="gen" CommandArgument='<%#Eval("id") %>' />
-                                    <asp:Button ID="btnDel" CssClass="btn btn-outline-danger" runat="server" Text="Usuń" CommandName="del" CommandArgument='<%#Eval("id") %>' />
+                                    <asp:Button ID="Button1" CssClass="btn btn-outline-warning" runat="server" Text="Wygeneruj hasło" OnClientClick="return confirm('Potwierdzasz operacje?')" CommandName="gen" CommandArgument='<%#Eval("id") %>' />
+                                    <asp:Button ID="btnDel" CssClass="btn btn-outline-danger" runat="server" Text="Usuń" OnClientClick="return confirm('Potwierdzasz operacje?')" CommandName="del" CommandArgument='<%#Eval("id") %>' />
                                 </ItemTemplate>
                             </asp:TemplateField>
 

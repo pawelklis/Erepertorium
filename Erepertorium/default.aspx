@@ -71,8 +71,8 @@
                 <!-- Modal footer -->
                 <div class="modal-footer">
 
-                    <asp:Button ID="btnDeletemodal" runat="server" OnClick="btnDeletemodal_Click" type="button" class="btn btn-danger" data-bs-dismiss="modal" Text="Usuń wpisy"></asp:Button>
-                    <asp:Button ID="btncancelmodal" runat="server" OnClick="btncancelmodal_Click" type="button" class="btn btn-danger" data-bs-dismiss="modal" Text="Anuluj"></asp:Button>
+                    <asp:Button ID="btnDeletemodal" runat="server" OnClick="btnDeletemodal_Click" type="button" class="btn btn-danger" data-bs-dismiss="modal" OnClientClick="return confirm('Potwierdzasz operacje?')" Text="Usuń wpisy"></asp:Button>
+                    <asp:Button ID="btncancelmodal" runat="server" OnClick="btncancelmodal_Click" type="button" class="btn btn-danger" data-bs-dismiss="modal" OnClientClick="return confirm('Potwierdzasz operacje?')" Text="Anuluj"></asp:Button>
                     <asp:Button ID="btnSaveModal" runat="server" class="btn btn-success" OnClick="btnSaveModal_Click" Text="Zatwierdź"></asp:Button>
 
                 </div>
@@ -251,8 +251,8 @@
                 <!-- Modal footer -->
                 <div class="modal-footer">
 
-                    <asp:Button ID="btnEditModalDelte" runat="server" OnClick="btnEditModalDelte_Click" type="button" class="btn btn-danger" data-bs-dismiss="modal" Text="Usuń wpisy"></asp:Button>
-                    <asp:Button ID="btnEditModalCances" runat="server" OnClick="btnEditModalCances_Click" type="button" class="btn btn-danger" data-bs-dismiss="modal" Text="Anuluj"></asp:Button>
+                    <asp:Button ID="btnEditModalDelte" runat="server" OnClick="btnEditModalDelte_Click" type="button" class="btn btn-danger" data-bs-dismiss="modal" OnClientClick="return confirm('Potwierdzasz operacje?')" Text="Usuń wpisy"></asp:Button>
+                    <asp:Button ID="btnEditModalCances" runat="server" OnClick="btnEditModalCances_Click" type="button" class="btn btn-danger" data-bs-dismiss="modal" OnClientClick="return confirm('Potwierdzasz operacje?')" Text="Anuluj"></asp:Button>
                     <asp:Button ID="btnEditModaSave" runat="server" class="btn btn-success" OnClick="btnEditModaSave_Click" Text="Zatwierdź"></asp:Button>
 
                 </div>
