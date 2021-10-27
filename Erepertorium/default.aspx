@@ -7,6 +7,7 @@
 
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+
     <script src="Scripts/jquery-3.6.0.min.js"></script>
 
     <script src="Scripts/jquery.signalR-2.4.2.min.js"></script>
