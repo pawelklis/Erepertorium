@@ -1366,7 +1366,7 @@ public class MysqlCore
         try
         {
             com = new MySqlCommand(sqlCommand, Connection());
-            GC = (int)com.ExecuteScalar();
+            GC = int.Parse(com.ExecuteScalar().ToString());
         }
         catch (Exception ex)
         {

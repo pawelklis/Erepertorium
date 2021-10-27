@@ -1,0 +1,33 @@
+﻿@page
+@model PrivacyModel
+@{
+    ViewData["Title"] = "Privacy Policy";
+}
+<h1>@ViewData["Title"]</h1>
+
+<p>Use this page to detail your site's privacy policy.</p>
+<form>
+    <table style="width: 100%; margin-bottom: 25px">
+        <tr>
+            <td>
+                <button name="button" style="background-color: transparent; color: yellow"
+                        value="cph" asp-action="check">
+                    København
+                </button>
+            </td>
+            <td>
+                <button name="button" style="background-color: transparent; color: yellow" value="odense" asp-action="check">Odense</button>
+            </td>
+            <td>
+                <button name="button" style="background-color: transparent; color: yellow" value="aarhus" asp-action="check">Århus</button>
+            </td>
+            <td>
+                <button name="button" style="background-color: transparent; color: yellow" value="aalborg" asp-action="check">Aalborg</button>
+            </td>
+        </tr>
+    </table>
+
+</form>
+<div>
+    @TempData["ButtonValue"]
+</div>

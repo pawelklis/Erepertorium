@@ -175,6 +175,32 @@ date = date.AddDays(1);
         protected void Timer2_Tick(object sender, EventArgs e)
         {
             BindDG();
+            //Check();
+        }
+
+        void Check()
+        {
+            if (Session["ct"] == null)
+                Session["ct"] = 0;
+
+            DateTime date = DateTime.Today;
+            try
+            {
+                date = DateTime.Parse(txDate.Text);
+            }
+            catch (Exception)
+            {
+            }
+            int ct = RegistryType.GetCount(date, ckdeleted.Checked, ckmy.Checked, user);
+
+            int storedCt =int.Parse( Session["ct"].ToString());
+
+            if (ct != storedCt)
+            {
+                Session["ct"] = ct;
+                BindDG();
+            }
+
         }
 
         protected void dg3_RowDataBound(object sender, GridViewRowEventArgs e)
@@ -183,10 +209,13 @@ date = date.AddDays(1);
             {
                 Label txcontext = (Label)e.Row.FindControl("txContent");
                 Label lbuser = (Label)e.Row.FindControl("Label4");
+                Label lb44 = (Label)e.Row.FindControl("Label44");
                 Panel pnspin = (Panel)e.Row.FindControl("pnspin");
                 Panel panel1 = (Panel)e.Row.FindControl("Panel1");
                 ImageButton imgbtn = (ImageButton)e.Row.FindControl("ImageButton1");
                 int status = int.Parse(imgbtn.CommandArgument);
+
+
 
                 imgbtn.Visible = true;
 
@@ -200,6 +229,12 @@ date = date.AddDays(1);
                 }
                 if (status == 1)
                 {
+
+                    RegistryType r = RegistryType.Load<RegistryType>(int.Parse(imgbtn.CommandName));
+
+
+                    lb44.Text ="Edytowany przez: " + r.History.Last().User.ToString();
+
                     if(lbuser.Text!=user)
                         imgbtn.Visible = false;
                     pnspin.Visible = true;
@@ -222,11 +257,15 @@ date = date.AddDays(1);
         {
             try
             {
+                UserType userObject = (UserType)Session["user"];
+                if (userObject != null)
+                    user = userObject.Name + " " + userObject.Surname;
+
                 Timer2.Enabled = false;
 
                 int id = int.Parse(e.CommandName.ToString());
                 RegistryType r = RegistryType.Load<RegistryType>(id);
-                r.BeginEdit();
+                r.BeginEdit(user);
                 List<RegistryType> l = new List<RegistryType>();
                 l.Add(r);
                 dg4.DataSource = l;
@@ -252,8 +291,9 @@ date = date.AddDays(1);
                 RegistryType.DeleteRegistry(user, id);
             }
             editModal.Visible = false;
-
             Timer2.Enabled = true;
+
+            BindDG();
         }
 
         protected void btnEditModalCances_Click(object sender, EventArgs e)
@@ -267,6 +307,8 @@ date = date.AddDays(1);
             }
             editModal.Visible = false;
             Timer2.Enabled = true;
+            
+            BindDG();
         }
 
         protected void btnEditModaSave_Click(object sender, EventArgs e)
@@ -280,6 +322,8 @@ date = date.AddDays(1);
             }
             editModal.Visible = false;
             Timer2.Enabled = true;
+
+            BindDG();
         }
 
         protected void btn1_Click(object sender, EventArgs e)
@@ -340,6 +384,11 @@ date = date.AddDays(1);
         {
             Binddg2(10);
             myModal.Visible = true;
+        }
+
+        protected void Button1_Click(object sender, EventArgs e)
+        {
+            BindDG();
         }
     }
 }

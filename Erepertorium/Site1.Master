@@ -67,7 +67,9 @@
                                      <asp:Label ID="lbo13" runat="server"  Text="Historia"></asp:Label>
                                 </HeaderTemplate>
                                 <ItemTemplate>
+                                    <div style="overflow:auto;height:200px;">
                                     <asp:Label ID="lbh" runat="server"  Text='<%#Eval("hist") %>' style="font-size:12px;"></asp:Label>
+                                        </div>
                                 </ItemTemplate>
                             </asp:TemplateField>
 
@@ -75,7 +77,8 @@
                                 <HeaderTemplate>
                                 </HeaderTemplate>
                                 <ItemTemplate>
-                                    <asp:ImageButton ID="ImageButton1" ImageUrl="~/images/edit.png" Style="width: 30px; height: 30px;" CommandArgument='<%#Eval("id") %>' runat="server" />
+                                    <asp:ImageButton ID="ImageButton1" ImageUrl="~/images/edit.png" Style="width: 30px; height: 30px;"  CommandArgument='<%#Eval("id") %>' runat="server" />
+
                                 </ItemTemplate>
                             </asp:TemplateField>
                         </Columns>
@@ -98,7 +101,47 @@
     </asp:Panel>
 
 
-<nav class="navbar navbar-expand-sm navbar-light bg-light" style="border-bottom-style:solid;border-bottom-color:silver;">
+
+        
+            <!-- The Modal changepassword -->
+    <asp:Panel runat="server" class="modaltlo" ID="pnChangePassword" Visible="false" Style="opacity: 1;          width: 100%;
+            height: 100vh;
+            background-color: whitesmoke;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            z-index: 2;">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content" style="background-color: silver; height: 80vh;">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Zmiana hasła</h4>
+                    <%--<asp:Button ID="Button1" runat="server" type="button" class="btn-close" data-bs-dismiss="modal" OnClick="Button1_Click"></asp:Button>--%>
+                </div>
+
+                <asp:TextBox ID="txOldPWD" TextMode="Password" placeholder="Bieżące hasło" runat="server"></asp:TextBox>
+
+                <asp:TextBox ID="txNewPWD" TextMode="Password" placeholder="Nowe hasło" runat="server"></asp:TextBox>
+
+                <asp:TextBox ID="txConfirmPWD" TextMode="Password" placeholder="Powtórz nowe hasło" runat="server"></asp:TextBox>
+
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+
+                    <%--<asp:Button ID="btnDeletemodal" runat="server" OnClick="btnDeletemodal_Click" type="button" class="btn btn-danger" data-bs-dismiss="modal" Text="Usuń wpisy"></asp:Button>--%>
+                    <asp:Button ID="btncancelmodal" runat="server" OnClick="btncancelmodal_Click" type="button" class="btn btn-danger" data-bs-dismiss="modal" Text="Anuluj"></asp:Button>
+                    <asp:Button ID="btnSaveModal" runat="server" class="btn btn-success" OnClick="btnSaveModal_Click" Text="Zatwierdź"></asp:Button>
+                    <asp:Label ID="Label6" runat="server" Text=""></asp:Label>
+                </div>
+
+            </div>
+        </div>
+    </asp:Panel>
+
+
+<nav class="navbar navbar-expand-sm navbar-dark" style="border-bottom-style:solid;border-bottom-color:silver;background-color:#393f47;">
   <div class="container-fluid">
     <a id="a1" runat="server"  onserverclick="a1_ServerClick" class="navbar-brand" href="javascript:void(0)"  >E-repertorium</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
@@ -123,6 +166,8 @@
 
 
     <a class="navbar-brand" href="#" runat="server">
+        <asp:ImageButton ID="ImageButton3" ImageUrl="~/images/appbar.settings.png" style="width:40px;margin-left:10px;" class="rounded-pill" OnClientClick="return confirm('Czy na pewno chcesz zmienić swoje hasło?')" ToolTip="Zmień hasło" OnClick="ImageButton3_Click"  runat="server" />
+
         <asp:ImageButton ID="ImageButton2" ImageUrl="~/images/usr.png" style="width:40px;margin-left:10px;" class="rounded-pill" OnClick="ImageButton2_Click"  runat="server" />
     </a>
     </div>
@@ -131,7 +176,7 @@
 
 
 
-        <div style="height:calc(100vh - 69px);background-color:whitesmoke">
+        <div style="height:calc(100vh - 75px);background-color:whitesmoke">
             <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
             </asp:ContentPlaceHolder>
         </div>

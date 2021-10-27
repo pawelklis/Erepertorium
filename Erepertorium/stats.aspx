@@ -29,7 +29,7 @@
             </div>
             <div class="col-9" style="overflow: auto; background-color: white; width: 100%">
 
-                <rsweb:ReportViewer Width="1200" Height="800" ID="ReportViewer1" runat="server"></rsweb:ReportViewer>
+                <rsweb:ReportViewer Width="1200" Height="800" ID="ReportViewer1" runat="server" ShowZoomControl="true"></rsweb:ReportViewer>
 
             </div>
         </div>

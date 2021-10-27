@@ -121,5 +121,89 @@ namespace Erepertorium
         {
             Response.Redirect("~/stats.aspx");
         }
+
+        protected void ImageButton3_Click(object sender, ImageClickEventArgs e)
+        {
+            txOldPWD.Text = "";
+            txNewPWD.Text = "";
+            txConfirmPWD.Text = "";
+            pnChangePassword.Visible = true;
+        }
+
+        protected void Button1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void btnSaveModal_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(txNewPWD.Text))
+            {
+                //haslo nie moze byc puste
+               this.Page.ClientScript.RegisterStartupScript( this.GetType(), "akl", "alert('Nowe hasło nie może być puste.');", true);
+                return;
+            }
+            if (string.IsNullOrEmpty(txConfirmPWD.Text))
+            {
+                //powtórz nowe hasło
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "al", "alert('Potwierdź nowe hasło.');", true);
+                return;
+            }
+            if (string.IsNullOrEmpty(txOldPWD.Text))
+            {
+                //podaj biezace hasło
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "al", "alert('Wprowadź bieżące hasło.');", true);
+                return;
+            }
+            if (txNewPWD.Text.Length < 8)
+            {
+                //nowe haslo jest za krótkie
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "al", "alert('Nowe hasło jest zbyt krótkie, podaj minimum 8 znaków.');", true);
+                return;
+            }
+
+            UserType user = (UserType)Session["user"];
+
+            if (txOldPWD.Text == user.localpwd)
+            {
+                if (txNewPWD.Text == txConfirmPWD.Text)
+                {
+                    user.localpwd = txNewPWD.Text;
+                    user.SetLocalPassword();
+
+                    txOldPWD.Text = "";
+                    txNewPWD.Text = "";
+                    txConfirmPWD.Text = "";
+                    pnChangePassword.Visible = false;
+                    //hasło zostało zmienione
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "al", "alert('Sukces! Hasło zostało zmienione.');", true);
+                }
+                else
+                {
+                    //nowe hasła różnią się od siebie
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "al", "alert('Wprowadzone hasła różnią się od siebie.');", true);
+                    return;
+                }
+            }
+            else
+            {
+                //biezace hasło jest nierpawidłowe
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "al", "alert('Bieżące hasło jest nieprawidłowe.');", true);
+                return;
+            }
+
+            txOldPWD.Text = "";
+            txNewPWD.Text = "";
+            txConfirmPWD.Text = "";
+            pnChangePassword.Visible = false;
+        }
+
+        protected void btncancelmodal_Click(object sender, EventArgs e)
+        {
+            txOldPWD.Text = "";
+            txNewPWD.Text = "";
+            txConfirmPWD.Text = "";
+            pnChangePassword.Visible = false;
+        }
     }
 }

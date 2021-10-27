@@ -34,6 +34,28 @@ namespace Erepertorium
             return sb.ToString();
         }
 
+        public static int GetCount(DateTime date, bool ShowDeleted, bool onlymy, string user = "")
+        {
+            int ct = 0;
+            
+            if (onlymy == false)
+            {
+                if (ShowDeleted == true)
+                    ct = MysqlCore.DB_Main().GetCount("select count(id) from registrys where  date like'%" + date.ToShortDateString() + "%';");
+                else
+                    ct = MysqlCore.DB_Main().GetCount("select count(id) from registrys where (status =1) and date like'%" + date.ToShortDateString() + "%' and status <> 5 ;");
+            }
+            else
+            {
+                if (ShowDeleted == true)
+                    ct = MysqlCore.DB_Main().GetCount("select count(id) from registrys where  date like'%" + date.ToShortDateString() + "%'  and user='" + user + "'  ;");
+                else
+                    ct = MysqlCore.DB_Main().GetCount("select count(id) from registrys where (status =1) and date like'%" + date.ToShortDateString() + "%' and status <> 5  and user='" + user + "'  ;");
+            }
+
+
+            return ct;
+        }
         public static List<RegistryType>LoadByDate(DateTime date, bool ShowDeleted, bool onlymy, string user="")
         {
             List<RegistryType> l = new List<RegistryType>();
@@ -109,13 +131,36 @@ namespace Erepertorium
             this.Save();
         }
 
-        public void BeginEdit()
+        public void BeginEdit(string user)
         {
             this.Status = 1;
+            this.AddHistoryEntry(user, HistoryDescriptions.Edytowano);
             this.Save();
         }
 
+        public void DeleteEmptys()
+        {
+            string sq = "delete from registrys where ordered is null and status = 5 and date <= NOW() - INTERVAL 1 DAY;";
+            MysqlCore.DB_Main().ExecuteNonQuery(sq);
+        }
+        public void ReindexBaseOnlyNoOrdered()
+        {
+            string sq = "" +
+                "SELECT @i:= max(number) from registrys where ordered is not null;" +
+                "UPDATE registrys SET number = @i:= @i + 1, ordered = 1 where ordered is null;" +
+                "";
+            MysqlCore.DB_Main().ExecuteNonQuery(sq);           
+                        
+        }
+        public void ReindexBaseOAll()
+        {
+            string sq = "" +
+                "SELECT @i:=0;" +
+                "UPDATE registrys SET number = @i:= @i + 1, ordered = 1;" +
+                "";
+            MysqlCore.DB_Main().ExecuteNonQuery(sq);
 
+        }
 
         public static List<RegistryType> CreateNewEntries(int count, string user)
         {

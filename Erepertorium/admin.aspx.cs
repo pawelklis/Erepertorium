@@ -53,7 +53,7 @@ namespace Erepertorium
                 if (e.CommandName == "gen")
                 {
                     string pwd = Guid.NewGuid().ToString();
-                    ScriptManager.RegisterStartupScript(this, this.GetType(), "al", "alert('" + pwd + " ')", true);
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "al", "alert('" + pwd + "')", true);
                     UserType u = UserType.Load<UserType>(id);
                     u.localpwd = pwd;
                     u.SetLocalPassword();

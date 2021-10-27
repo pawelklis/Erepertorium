@@ -41,17 +41,19 @@ namespace Erepertorium
 
                 user.GetLocalPassword();
 
-                if (txpassword.Text == user.localpwd)
-                {
-                    //logowanie ad hasło poprawne
+                //if (txpassword.Text == user.localpwd)
+                //{
+                //logowanie ad hasło poprawne
+                user.localpwd = txpassword.Text;
+                user.SetLocalPassword();
                     Session["user"] = user;
                     Response.Redirect("~/default.aspx");
-                }
-                else
-                {
-                    //logowanie ad błędne hasło
-                    ScriptManager.RegisterStartupScript(this, this.GetType(), "al", "alert('Podano błędne dane logowania!')", true);
-                }
+                //}
+                //else
+                //{
+                //    //logowanie ad błędne hasło
+                //    ScriptManager.RegisterStartupScript(this, this.GetType(), "al", "alert('Podano błędne dane logowania!')", true);
+                //}
             }
             else
             {
