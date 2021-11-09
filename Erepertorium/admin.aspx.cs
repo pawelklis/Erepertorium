@@ -53,7 +53,7 @@ namespace Erepertorium
                 if (e.CommandName == "gen")
                 {
                     string pwd = Guid.NewGuid().ToString();
-                    ScriptManager.RegisterStartupScript(this, this.GetType(), "al", "alert('" + pwd + "')", true);
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "al", "alert('Hasło:" + pwd + "')", true);
                     UserType u = UserType.Load<UserType>(id);
                     u.localpwd = pwd;
                     u.SetLocalPassword();
@@ -103,7 +103,7 @@ namespace Erepertorium
         {
             string pwd = Guid.NewGuid().ToString(); 
 
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "al", "alert('" + pwd +" ')", true);
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "al", "alert('Hasło:" + pwd +"')", true);
 
             UserType u = new UserType();
             u.Level = 0;
@@ -111,6 +111,13 @@ namespace Erepertorium
             u.Save();
             u.SetLocalPassword();
             Bind();
+        }
+
+        protected void btnReorder_Click(object sender, EventArgs e)
+        {
+            
+            RegistryType.ReindexBaseOAll(DateTime.Now.Year);
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "al", "alert('Zakończono numeracje.')", true);
         }
     }
 }

@@ -291,6 +291,7 @@ date = date.AddDays(1);
                 Label txcontext = (Label)e.Row.FindControl("txContent");
                 Label lbuser = (Label)e.Row.FindControl("Label4");
                 Label lb44 = (Label)e.Row.FindControl("Label44");
+                Label lbgroup = (Label)e.Row.FindControl("lbgroup");
                 Panel pnspin = (Panel)e.Row.FindControl("pnspin");
                 Panel panel1 = (Panel)e.Row.FindControl("Panel1");
                 Panel pnc = (Panel)e.Row.FindControl("pnc");
@@ -298,6 +299,7 @@ date = date.AddDays(1);
                 ImageButton imgbtn2 = (ImageButton)e.Row.FindControl("ImageButton2");
                 int status = int.Parse(imgbtn.CommandArgument);
 
+                e.Row.Attributes.Add("Name", lbgroup.Text);
                 
 
                 if (pnc.ToolTip == "#ffffff")

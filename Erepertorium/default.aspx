@@ -77,7 +77,7 @@
             });
         };
 
-
+    
     </script>
 
     <asp:UpdatePanel ID="up1" runat="server">
@@ -220,7 +220,7 @@
                                     <td>
                                         <div class="input-group">
                                             <span class="input-group-text btn-outline-success" style="background-color: transparent;">Dane z dnia:</span>
-                                            <asp:TextBox ID="txDate" CssClass="btn btn-outline-success" Style="z-index: 1;" runat="server" TextMode="Date" OnTextChanged="txDate_TextChanged" ></asp:TextBox>
+                                            <asp:TextBox ID="txDate" CssClass="btn btn-outline-success" Style="z-index: 1;" runat="server" TextMode="Date" OnTextChanged="txDate_TextChanged" AutoPostBack="true" ></asp:TextBox>
                                         </div>
 
 
@@ -228,11 +228,11 @@
 
                                     </td>
                                     <td>
-                                        <asp:CheckBox ID="ckdeleted" CssClass="btn btn-outline-success" runat="server" Text="Wyświetl usunięte pozycje" OnCheckedChanged="ckdeleted_CheckedChanged" />
+                                        <asp:CheckBox ID="ckdeleted" CssClass="btn btn-outline-success" runat="server" Text="Wyświetl usunięte pozycje" OnCheckedChanged="ckdeleted_CheckedChanged" AutoPostBack="true" />
 
                                     </td>
                                     <td>
-                                        <asp:CheckBox ID="ckmy" CssClass="btn btn-outline-success" runat="server" Text="Wyświetl tylko moje pozycje" OnCheckedChanged="ckmy_CheckedChanged"  />
+                                        <asp:CheckBox ID="ckmy" CssClass="btn btn-outline-success" runat="server" Text="Wyświetl tylko moje pozycje" OnCheckedChanged="ckmy_CheckedChanged" AutoPostBack="true" />
 
                                     </td>
                                 </tr>
@@ -349,7 +349,25 @@
                                 </ContentTemplate>
                             </asp:UpdatePanel>
 
-                            <asp:GridView ID="dg3" CssClass="table table-hover table-light " runat="server" Style="z-index: 10;" AutoGenerateColumns="false" OnRowDataBound="dg3_RowDataBound"
+                            <script>
+
+                                function Mark(gid) {
+                                    var elems = document.getElementsByName(gid);
+
+                                    for (var i = 0; i < elems.length; i++) {
+                                        elems[i].style.borderColor = "red";
+                                    }
+                                }
+                                function MarkOut(gid) {
+                                    var elems = document.getElementsByName(gid);
+
+                                    for (var i = 0; i < elems.length; i++) {
+                                        elems[i].style.borderColor = "inherit";
+                                    }
+                                }
+                            </script>
+
+                            <asp:GridView ID="dg3" CssClass="table table-hover table-light " runat="server" Style="z-index: 10;" ShowHeader="false" AutoGenerateColumns="false" OnRowDataBound="dg3_RowDataBound"
                                 OnRowCommand="dg3_RowCommand" OnSelectedIndexChanged="dg3_SelectedIndexChanged">
 
 
@@ -361,11 +379,13 @@
                                         <ItemTemplate>
                  
 
-                                            <asp:Panel ID="pnc"  runat="server" ToolTip='<%#Eval("color") %>' style="border-radius:0%;box-shadow: 2px 2px 10px 1px rgba(66, 68, 90, 1);">
+                                            <asp:Panel ID="pnc" name='<%#Eval("groupid") %>'  runat="server" ToolTip='<%#Eval("color") %>' style="border-radius:0%;box-shadow: 2px 2px 10px 1px rgba(66, 68, 90, 1);">
+                                                <div onmouseover="Mark('<%#Eval("groupid") %>')" onmouseout="MarkOut('<%#Eval("groupid") %>')">
                                                 <asp:Label ID="Label3" runat="server" Text='<%#Eval("number") %>' ToolTip='<%#Eval("id") %>' Style="font-size: 40px; font-weight: 700;"></asp:Label><br />
                                                 <asp:Label ID="Label4" runat="server" Text='<%#Eval("user") %>' Style="font-size: 10px;"></asp:Label>
                                                 <asp:Label ID="Label5" runat="server" Text='<%#Eval("date", " {0:HH:mm}") %>' Style="font-size: 10px;"></asp:Label>
                                                 <asp:Label ID="lbgroup" runat="server" Text='<%#Eval("groupid") %>' Style="font-size: 1px;visibility:hidden;"></asp:Label>
+                                                </div>
                                             </asp:Panel>
                                            
                                               
@@ -422,7 +442,10 @@
                                             <div style="display:inline-block;">
                                             <asp:ImageButton ID="ImageButton1" CssClass="btedit" ImageUrl="~/images/edit.png" CommandArgument='<%#Eval("status") %>' ToolTip="Edytuj pozycje" CommandName='<%#Eval("id") %>' Style="width: 50px; height: 50px; cursor:pointer;" runat="server" />
                                             
-                                            <asp:ImageButton ID="ImageButton2" CssClass="btedit" ImageUrl="~/images/eg.png" CommandArgument='<%#Eval("id") %>' ToolTip="Edytuj grupę pozycji"  CommandName="group"  AlternateText='<%#Eval("groupid") %>' Style="width: 50px; height: 50px; cursor:pointer;" runat="server" />
+                                                <div onmouseover="Mark('<%#Eval("groupid") %>')" onmouseout="MarkOut('<%#Eval("groupid") %>')">
+                                            <asp:ImageButton ID="ImageButton2"    CssClass="btedit" ImageUrl="~/images/eg.png" CommandArgument='<%#Eval("id") %>' ToolTip="Edytuj grupę pozycji"  CommandName="group"  AlternateText='<%#Eval("groupid") %>' Style="width: 50px; height: 50px; cursor:pointer;" runat="server" />
+
+                                                   </div>
                                                 </div>
                                         </ItemTemplate>
                                     </asp:TemplateField>

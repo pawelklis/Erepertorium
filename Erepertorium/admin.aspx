@@ -19,9 +19,11 @@
 
             <nav class="navbar navbar-expand-sm navbar-light bg-light" >
  
-                <div style="float:left;">
+                <div style="float:left;width:100%">
                     <asp:Button ID="btnAdd" CssClass="btn btn-outline-success" runat="server" Text="Dodaj użytkownika" OnClick="btnAdd_Click" />       
                     <asp:Button ID="btnSave" CssClass="btn btn-outline-success" runat="server" Text="Zapisz" OnClick="btnSave_Click" />
+                    
+                    <asp:Button ID="btnReorder" style="float:right;" CssClass="btn btn-outline-danger" runat="server" ToolTip="Operacja spowoduje przenumerowanie wszystkich pozycji w bieżacym roku." Text="Przenumeruj bazę" OnClick="btnReorder_Click" OnClientClick="return confirm('Operacja spowoduje przenumerowanie wszystkich pozycji w bieżacym roku. Operacji nie można cofnąć. Czy chcesz kontynuować?')" />
                 </div>
 
 

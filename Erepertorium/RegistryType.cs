@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Web;
@@ -156,13 +157,23 @@ namespace Erepertorium
             MysqlCore.DB_Main().ExecuteNonQuery(sq);           
                         
         }
-        public void ReindexBaseOAll( int year)
+        public static void ReindexBaseOAll( int year)
         {
-            string sq = "" +
-                "SELECT @i:=0;" +
-                "UPDATE registrys SET number = @i:= @i + 1, ordered = 1 where YEAR(date)=" + year + ";" +
-                "";
-            MysqlCore.DB_Main().ExecuteNonQuery(sq);
+            //string sq = "" +
+            //    "SELECT @i:=0;" +
+            //    "UPDATE registrys SET number = @i:= @i + 1, ordered = 1 where YEAR(date)=" + year + ";" +
+            //    "";
+            //MysqlCore.DB_Main().ExecuteNonQuery(sq);
+
+            DataTable dt = MysqlCore.DB_Main().FillDatatable("Select * from registrys where YEAR(date)=" + year + ";");
+
+            int n = 1;
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                int id = int.Parse(dt.Rows[i]["id"].ToString());
+                MysqlCore.DB_Main().ExecuteNonQuery("Update registrys set number=" + n + " where id=" + id);
+                n++;
+            }
 
         }
         public static void DeleteOlderRegistrys()
