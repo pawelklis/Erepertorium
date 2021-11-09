@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -16,7 +18,7 @@ namespace Erepertorium
         {
             if (!IsPostBack)
             {
-                txDate.Text = DateTime.Today.ToShortDateString();
+                txDate.Text = FromMinusDate(DateTime.Today.ToShortDateString()).ToShortDateString();
                 BindDG();
                 //Generate();
             }
@@ -67,7 +69,7 @@ namespace Erepertorium
                     RegistryType r = new RegistryType();
                     r.Date = date;
                     r.User = user;
-                    r.Number = RegistryType.GetNextNumber();
+                    r.Number = RegistryType.GetNextNumber(DateTime.Now.Year);
                     r.Content = ct;
                 
                     r.Save();
@@ -88,18 +90,20 @@ date = date.AddDays(1);
 
         void Binddg2(int ir)
         {
+            
 
-
-            List<RegistryType> L = RegistryType.CreateNewEntries(ir,user);
+            List<RegistryType> L = RegistryType.CreateNewEntries(ir,user, DateTime.Now.Year);
 
             DataTable dt = new DataTable();
             dt.Columns.Add("id");
             dt.Columns.Add("number");
             dt.Columns.Add("content");
+            dt.Columns.Add("color");
+            dt.Columns.Add("groupid");
 
             foreach(var r in L)
             {
-                dt.Rows.Add(r.Id, r.Number, r.Content);
+                dt.Rows.Add(r.Id, r.Number, r.Content, r.color, r.GroupId);
             }
 
             dg2.DataSource = dt;
@@ -113,14 +117,28 @@ date = date.AddDays(1);
 
         protected void btnSaveModal_Click(object sender, EventArgs e)
         {
+
+            string allcolor = ccall.Value;
+
+
+
             foreach(GridViewRow row in dg2.Rows)
             {
                 int id = int.Parse(((ImageButton)row.FindControl("ImageButton1")).CommandArgument);
                 string content = ((TextBox)row.FindControl("tx1")).Text;
 
-                RegistryType.ChangeContent(content, user, id);
+                System.Web.UI.HtmlControls.HtmlInputGenericControl c = ((System.Web.UI.HtmlControls.HtmlInputGenericControl)row.FindControl("cc"));
+                string color = "#ffffff";
+                if (allcolor != "#ffffff")
+                    color = allcolor;
+                else
+                    color = c.Value;
+
+
+                RegistryType.ChangeContent(content, user, id, color);
             }
             myModal.Visible = false;
+            BindDG();
         }
 
         protected void btncancelmodal_Click(object sender, EventArgs e)
@@ -133,6 +151,7 @@ date = date.AddDays(1);
                 RegistryType.CancelEdit(user, id);
             }
             myModal.Visible = false;
+            BindDG();
         }
 
         protected void btnDeletemodal_Click(object sender, EventArgs e)
@@ -145,6 +164,47 @@ date = date.AddDays(1);
                 RegistryType.DeleteRegistry(user, id);
             }
             myModal.Visible = false;
+            BindDG();
+        }
+
+        DateTime FromDotsDate(string DateWithDots)
+        {
+            String result = DateTime.Today.ToString();
+
+            try
+            {
+                result = DateTime
+     .ParseExact(DateWithDots, "dd.MM.yyyy", CultureInfo.InvariantCulture)
+     .ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+
+                return DateTime.Parse(result);
+            }
+            catch (Exception)
+            {
+                return DateTime.Parse(DateWithDots);
+            }
+
+        } 
+        
+        DateTime FromMinusDate(string DateWithoutDots)
+        {
+            String result = DateTime.Today.ToString();
+
+            try
+            {
+                result = DateTime
+     .ParseExact(DateWithoutDots, "yyyy-MM-dd", CultureInfo.InvariantCulture)
+     .ToString("dd.MM.yyyy", CultureInfo.InvariantCulture);
+
+                DateTime dt = DateTime.ParseExact(result,"dd.MM.yyyy", CultureInfo.InvariantCulture);
+
+                return dt;
+            }
+            catch (Exception)
+            {
+                return DateTime.Parse(DateWithoutDots);
+            }
+
         }
 
         void BindDG()
@@ -153,9 +213,10 @@ date = date.AddDays(1);
             DateTime date = DateTime.Today;
             try
             {
-               date = DateTime.Parse(txDate.Text);
+
+                date = FromDotsDate(txDate.Text);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
             }
@@ -176,6 +237,7 @@ date = date.AddDays(1);
         {
             BindDG();
             //Check();
+            //Timer2.Enabled = false;
         }
 
         void Check()
@@ -202,20 +264,46 @@ date = date.AddDays(1);
             }
 
         }
-
+        protected void dg3_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            foreach (GridViewRow row in dg3.Rows)
+            {
+                if (row.RowIndex == dg3.SelectedIndex)
+                {
+                    row.BackColor = ColorTranslator.FromHtml("#20c997");
+                    row.ToolTip = string.Empty;
+                }
+                else
+                {
+                    row.BackColor = ColorTranslator.FromHtml("#FFFFFF");
+                    row.ToolTip = "Click to select this row.";
+                }
+            }
+        }
         protected void dg3_RowDataBound(object sender, GridViewRowEventArgs e)
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
+
+                //e.Row.Attributes["onclick"] = Page.ClientScript.GetPostBackClientHyperlink(dg3, "Select$" + e.Row.RowIndex);
+                e.Row.Attributes["style"] = "cursor:pointer";
+
                 Label txcontext = (Label)e.Row.FindControl("txContent");
                 Label lbuser = (Label)e.Row.FindControl("Label4");
                 Label lb44 = (Label)e.Row.FindControl("Label44");
                 Panel pnspin = (Panel)e.Row.FindControl("pnspin");
                 Panel panel1 = (Panel)e.Row.FindControl("Panel1");
+                Panel pnc = (Panel)e.Row.FindControl("pnc");
                 ImageButton imgbtn = (ImageButton)e.Row.FindControl("ImageButton1");
+                ImageButton imgbtn2 = (ImageButton)e.Row.FindControl("ImageButton2");
                 int status = int.Parse(imgbtn.CommandArgument);
 
+                
 
+                if (pnc.ToolTip == "#ffffff")
+                    pnc.Style.Add("background-color", "transparent");
+                else
+                    pnc.Style.Add("background-color", pnc.ToolTip);
 
                 imgbtn.Visible = true;
 
@@ -232,19 +320,25 @@ date = date.AddDays(1);
 
                     RegistryType r = RegistryType.Load<RegistryType>(int.Parse(imgbtn.CommandName));
 
+                    string cu = r.History.Last().User.ToString();
 
-                    lb44.Text ="Edytowany przez: " + r.History.Last().User.ToString();
+                    lb44.Text ="Edytowany przez: " + cu;
 
-                    if(lbuser.Text!=user)
+                    //if (lbuser.Text != cu)
+                    //{
+                        //imgbtn.Visible = false;
+
                         imgbtn.Visible = false;
+                        imgbtn2.Visible = false;
+                    //}
                     pnspin.Visible = true;
                     txcontext.Visible = false;
                     panel1.Visible = false;
                 }
                 if (status == 5)
                 {
-                    if (lbuser.Text != user)
-                        imgbtn.Visible = false;
+                    //if (lbuser.Text != user)
+                        //imgbtn.Visible = false;
                     pnspin.Visible = false;
                     txcontext.Visible = false;
                     panel1.Visible = true;
@@ -263,15 +357,42 @@ date = date.AddDays(1);
 
                 Timer2.Enabled = false;
 
-                int id = int.Parse(e.CommandName.ToString());
-                RegistryType r = RegistryType.Load<RegistryType>(id);
-                r.BeginEdit(user);
-                List<RegistryType> l = new List<RegistryType>();
-                l.Add(r);
-                dg4.DataSource = l;
-                dg4.DataBind();
+                if (e.CommandName == "group")
+                {
+                    int id = int.Parse(e.CommandArgument.ToString());
 
-                editModal.Visible = true;
+                    ImageButton btn = e.CommandSource as ImageButton;
+
+                    string groupid = btn.AlternateText;
+                    List<RegistryType> l = RegistryType.LoadWhere<RegistryType>(" groupid='" + groupid + "' ");
+
+                    foreach(var r in l)
+                    {
+                        r.BeginEdit(user);
+                    }
+
+                    dg4.DataSource = l;
+                    dg4.DataBind();
+
+                    cce.Value = "#ffffff";
+                    editModal.Visible = true;
+
+                }
+                else
+                {
+                    int id = int.Parse(e.CommandName.ToString());
+                    RegistryType r = RegistryType.Load<RegistryType>(id);
+                    r.BeginEdit(user);
+                    List<RegistryType> l = new List<RegistryType>();
+                    l.Add(r);
+                    dg4.DataSource = l;
+                    dg4.DataBind();
+
+                    cce.Value = "#ffffff";
+                    editModal.Visible = true;
+                }
+
+
 
             }
             catch (Exception)
@@ -313,12 +434,21 @@ date = date.AddDays(1);
 
         protected void btnEditModaSave_Click(object sender, EventArgs e)
         {
+            string allcolor = cce.Value;
+
             foreach (GridViewRow row in dg4.Rows)
             {
                 int id = int.Parse(((ImageButton)row.FindControl("ImageButton1")).CommandArgument);
                 string content = ((TextBox)row.FindControl("tx1")).Text;
 
-                RegistryType.ChangeContent(content,user, id);
+                System.Web.UI.HtmlControls.HtmlInputGenericControl c = ((System.Web.UI.HtmlControls.HtmlInputGenericControl)row.FindControl("cc"));
+                string color = "#ffffff";
+                if (allcolor != "#ffffff")
+                    color = allcolor;
+                else
+                    color = c.Value;
+
+                RegistryType.ChangeContent(content,user, id,color);
             }
             editModal.Visible = false;
             Timer2.Enabled = true;
@@ -329,6 +459,7 @@ date = date.AddDays(1);
         protected void btn1_Click(object sender, EventArgs e)
         {
             Binddg2(1);
+            ccall.Value = "#ffffff";
             myModal.Visible = true;
         }
 
@@ -336,57 +467,81 @@ date = date.AddDays(1);
         protected void btn2_Click(object sender, EventArgs e)
         {
             Binddg2(2);
+            ccall.Value = "#ffffff";
             myModal.Visible = true;
         }
 
         protected void btn3_Click(object sender, EventArgs e)
         {
             Binddg2(3);
+            ccall.Value = "#ffffff";
             myModal.Visible = true;
         }
 
         protected void btn4_Click(object sender, EventArgs e)
         {
             Binddg2(4);
+            ccall.Value = "#ffffff";
             myModal.Visible = true;
         }
 
         protected void btn5_Click(object sender, EventArgs e)
         {
             Binddg2(5);
+            ccall.Value = "#ffffff";
             myModal.Visible = true;
         }
 
         protected void btn6_Click(object sender, EventArgs e)
         {
             Binddg2(6);
+            ccall.Value = "#ffffff";
             myModal.Visible = true;
         }
 
         protected void btn7_Click(object sender, EventArgs e)
         {
             Binddg2(7);
+            ccall.Value = "#ffffff";
             myModal.Visible = true;
         }
 
         protected void btn8_Click(object sender, EventArgs e)
         {
             Binddg2(8);
+            ccall.Value = "#ffffff";
             myModal.Visible = true;
         }
 
         protected void btn9_Click(object sender, EventArgs e)
         {
             Binddg2(9);
+            ccall.Value = "#ffffff";
             myModal.Visible = true;
         }
         protected void btn10_Click(object sender, EventArgs e)
         {
             Binddg2(10);
+            ccall.Value = "#ffffff";
             myModal.Visible = true;
         }
 
         protected void Button1_Click(object sender, EventArgs e)
+        {
+            BindDG();
+        }
+
+        protected void ckdeleted_CheckedChanged(object sender, EventArgs e)
+        {
+            BindDG();
+        }
+
+        protected void ckmy_CheckedChanged(object sender, EventArgs e)
+        {
+            BindDG();
+        }
+
+        protected void txDate_TextChanged(object sender, EventArgs e)
         {
             BindDG();
         }

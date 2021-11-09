@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Threading;
 using System.Web;
 using System.Web.Optimization;
 using System.Web.Routing;
@@ -25,7 +27,10 @@ namespace Erepertorium
 
         protected void Application_BeginRequest(object sender, EventArgs e)
         {
-
+            CultureInfo newCulture = (CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
+            newCulture.DateTimeFormat.ShortDatePattern = "yyyy-MM-dd";
+            newCulture.DateTimeFormat.DateSeparator = "-";
+            Thread.CurrentThread.CurrentCulture = newCulture;
         }
 
         protected void Application_AuthenticateRequest(object sender, EventArgs e)

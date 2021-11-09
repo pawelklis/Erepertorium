@@ -33,6 +33,15 @@ namespace Erepertorium
         protected global::System.Web.UI.WebControls.Panel myModal;
 
         /// <summary>
+        /// ccall control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputGenericControl ccall;
+
+        /// <summary>
         /// dg2 control.
         /// </summary>
         /// <remarks>
@@ -211,6 +220,15 @@ namespace Erepertorium
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel editModal;
+
+        /// <summary>
+        /// cce control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputGenericControl cce;
 
         /// <summary>
         /// dg4 control.

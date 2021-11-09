@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.30523.141
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Erepertorium", "Erepertorium\Erepertorium.csproj", "{18D2BCFB-A083-43EF-92DD-D567D32C0ABC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "signWeb", "signWeb\signWeb.csproj", "{B69799D3-FA9E-4E59-8A07-4A06095227D0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "signWeb", "signWeb\signWeb.csproj", "{B69799D3-FA9E-4E59-8A07-4A06095227D0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProject1", "UnitTestProject1\UnitTestProject1.csproj", "{2B61460F-B445-4ED9-A8E4-E9955F8999C6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{B69799D3-FA9E-4E59-8A07-4A06095227D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B69799D3-FA9E-4E59-8A07-4A06095227D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B69799D3-FA9E-4E59-8A07-4A06095227D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B61460F-B445-4ED9-A8E4-E9955F8999C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B61460F-B445-4ED9-A8E4-E9955F8999C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B61460F-B445-4ED9-A8E4-E9955F8999C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B61460F-B445-4ED9-A8E4-E9955F8999C6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

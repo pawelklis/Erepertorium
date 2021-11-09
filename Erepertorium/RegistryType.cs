@@ -15,12 +15,15 @@ namespace Erepertorium
         public string User { get; set; }
         public string Content { get;set; }
         public int Status { get; private set; }
+        public string color { get; set; }
+        public string GroupId { get; set; }
         public List<RegistryHistoryType> History { get; set; }
 
         public string hs;
 
         public RegistryType()
         {
+            this.color = "#ffffff";
             this.History = new List<RegistryHistoryType>();
         }
 
@@ -98,10 +101,10 @@ namespace Erepertorium
             this.History.Add(h);
         }
 
-        public static void ChangeContent(string content,string user,int id)
+        public static void ChangeContent(string content,string user,int id, string color)
         {
             RegistryType r = RegistryType.Load<RegistryType>(id);
-            r.ChangeContent(content, user);
+            r.ChangeContent(content, user, color);
         }
 
         public static void CancelEdit(string user,int id)
@@ -119,13 +122,14 @@ namespace Erepertorium
             r.Save();
         }
 
-        public void ChangeContent(string content, string user)
+        public void ChangeContent(string content, string user, string color)
         {
             this.Content = content;
 
             if (this.Content.Length > 1000)
                 this.Content = this.Content.Substring(0, 1000);
 
+            this.color = color;
             this.Status = 0;
             this.AddHistoryEntry(user, HistoryDescriptions.Edytowano);
             this.Save();
@@ -152,25 +156,37 @@ namespace Erepertorium
             MysqlCore.DB_Main().ExecuteNonQuery(sq);           
                         
         }
-        public void ReindexBaseOAll()
+        public void ReindexBaseOAll( int year)
         {
             string sq = "" +
                 "SELECT @i:=0;" +
-                "UPDATE registrys SET number = @i:= @i + 1, ordered = 1;" +
+                "UPDATE registrys SET number = @i:= @i + 1, ordered = 1 where YEAR(date)=" + year + ";" +
                 "";
             MysqlCore.DB_Main().ExecuteNonQuery(sq);
 
         }
-
-        public static List<RegistryType> CreateNewEntries(int count, string user)
+        public static void DeleteOlderRegistrys()
         {
+            try
+            {
+                MysqlCore.DB_Main().ExecuteNonQuery("delete from registrys where date  <NOW() - INTERVAL 100 DAY;");
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+        public static List<RegistryType> CreateNewEntries(int count, string user, int year)
+        {
+            string groupid = Guid.NewGuid().ToString();
             List<RegistryType> l = new List<RegistryType>();
 
-            int firstnumber = GetNextNumber();
+            int firstnumber = GetNextNumber(year);
 
             for (int i = 0; i < count; i++)
             {
                 RegistryType r = new RegistryType();
+                r.GroupId = groupid;
                 r.Date = DateTime.Now;
                 r.Number = firstnumber;
                 r.User = user;
@@ -186,10 +202,10 @@ namespace Erepertorium
             return l;
         }
 
-        public static int GetNextNumber()
+        public static int GetNextNumber(int Year)
         {
             int nn = 0;
-            nn = int.Parse(MysqlCore.DB_Main().GetString("select max(number) from erepdb.registrys;", "0"));
+            nn = int.Parse(MysqlCore.DB_Main().GetString("select max(number) from erepdb.registrys where YEAR(date)=" + Year + ";", "0"));
             nn += 1;
             return nn;
         }

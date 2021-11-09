@@ -72,7 +72,7 @@ public class MysqlCore
         {
         }
 
-        return new MysqlCore("localhost", "erepdb", "mayday1");
+        return new MysqlCore("localhost", "erepdb", "mayday1"); // "GVjdqEz4");
     }
 
 
@@ -1318,7 +1318,8 @@ public class MysqlCore
             {
             }
         }
-
+        if (string.IsNullOrEmpty(GS))
+            GS = ReturnValueIffNull;
 
         //GS = ReturnValueIffNull;
         return GS;

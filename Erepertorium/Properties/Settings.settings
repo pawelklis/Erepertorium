@@ -1,0 +1,15 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Erepertorium.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="ADpwd" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">haslo_uzytkownika_ad</Value>
+    </Setting>
+    <Setting Name="ADuser" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">nazwa_uzytkownika_ad</Value>
+    </Setting>
+    <Setting Name="LDAPPath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">LDAP://10.12.0.2/OU=Wroclaw,OU=uzytkownicy,DC=net,DC=pp</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

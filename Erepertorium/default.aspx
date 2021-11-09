@@ -1,5 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site1.Master" AutoEventWireup="true" CodeBehind="default.aspx.cs" EnableEventValidation="false" Inherits="Erepertorium._default" %>
 
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 
@@ -103,7 +105,10 @@
                 <!-- Modal Header -->
                 <div class="modal-header">
                     <h4 class="modal-title">Nowe pozycje repertorium</h4>
-
+                    <div>
+                        <input Id="ccall" runat="server" type="color" title="Ustaw kolor wszystkich pozycji" style="padding: 0px;border-style: none;" name="favcolor"  />
+                    </div>
+                    
                 </div>
 
                 <!-- Modal body -->
@@ -115,7 +120,11 @@
                                     <asp:Label ID="Label1" runat="server" Text="Numer"></asp:Label>
                                 </HeaderTemplate>
                                 <ItemTemplate>
-                                    <asp:Label ID="Label3" runat="server" Style="font-size: 20px; font-weight: 600;" Text='<%#Eval("number") %>'></asp:Label><br />
+
+                                     <asp:Label ID="Label3" runat="server" Style="font-size: 20px; font-weight: 600;" Text='<%#Eval("number") %>'></asp:Label>
+                                     <input Id="cc" title="Ustaw kolor" runat="server" type="color" style="padding: 0px;border-style: none;" name="favcolor" value='<%#Eval("color") %>' />                               
+                                     
+                                    <br />
                                     <asp:TextBox ID="tx1" runat="server" MaxLength="1000" TextMode="MultiLine" Style="width: 100%; height: 90%;" Text='<%#Eval("content") %>'></asp:TextBox>
                                 </ItemTemplate>
                             </asp:TemplateField>
@@ -127,6 +136,11 @@
                                 </HeaderTemplate>
                                 <ItemTemplate>
                                     <asp:ImageButton ID="ImageButton1" ImageUrl="~/images/edit.png" Style="width: 30px; height: 30px;" CommandArgument='<%#Eval("id") %>' runat="server" />
+
+
+                                
+
+
                                 </ItemTemplate>
                             </asp:TemplateField>
                         </Columns>
@@ -206,7 +220,7 @@
                                     <td>
                                         <div class="input-group">
                                             <span class="input-group-text btn-outline-success" style="background-color: transparent;">Dane z dnia:</span>
-                                            <asp:TextBox ID="txDate" CssClass="btn btn-outline-success" Style="z-index: 1;" runat="server" TextMode="Date"></asp:TextBox>
+                                            <asp:TextBox ID="txDate" CssClass="btn btn-outline-success" Style="z-index: 1;" runat="server" TextMode="Date" OnTextChanged="txDate_TextChanged" ></asp:TextBox>
                                         </div>
 
 
@@ -214,11 +228,11 @@
 
                                     </td>
                                     <td>
-                                        <asp:CheckBox ID="ckdeleted" CssClass="btn btn-outline-success" runat="server" Text="Wyświetl usunięte pozycje" />
+                                        <asp:CheckBox ID="ckdeleted" CssClass="btn btn-outline-success" runat="server" Text="Wyświetl usunięte pozycje" OnCheckedChanged="ckdeleted_CheckedChanged" />
 
                                     </td>
                                     <td>
-                                        <asp:CheckBox ID="ckmy" CssClass="btn btn-outline-success" runat="server" Text="Wyświetl tylko moje pozycje" />
+                                        <asp:CheckBox ID="ckmy" CssClass="btn btn-outline-success" runat="server" Text="Wyświetl tylko moje pozycje" OnCheckedChanged="ckmy_CheckedChanged"  />
 
                                     </td>
                                 </tr>
@@ -283,7 +297,7 @@
                                                 <!-- Modal Header -->
                                                 <div class="modal-header">
                                                     <h4 class="modal-title">Edycja pozycji repertorium</h4>
-
+                                                     <input Id="cce" runat="server" type="color" title="Ustaw kolor wszystkich pozycji" style="padding: 0px;border-style: none;" name="favcolor"  />
                                                 </div>
 
                                                 <!-- Modal body -->
@@ -294,8 +308,11 @@
                                                                 <HeaderTemplate>
                                                                     <asp:Label ID="Label1" runat="server" Text="Numer"></asp:Label>
                                                                 </HeaderTemplate>
-                                                                <ItemTemplate>
-                                                                    <asp:Label ID="Label3" runat="server" Style="font-size: 20px; font-weight: 600;" Text='<%#Eval("number") %>'></asp:Label><br />
+                                                                <ItemTemplate>                         
+                                                                    <asp:Label ID="Label3" runat="server" Style="font-size: 20px; font-weight: 600;" Text='<%#Eval("number") %>'></asp:Label>
+                                                                    <input Id="cc" title="Ustaw kolor" runat="server" type="color" style="padding: 0px;border-style: none;" name="favcolor" value='<%#Eval("color") %>' />
+                                                                    
+                                                                    <br />
                                                                     <asp:TextBox ID="tx1" runat="server" TextMode="MultiLine" MaxLength="1000" Style="width: 100%; height: 90%;" Text='<%#Eval("content") %>'></asp:TextBox>
                                                                 </ItemTemplate>
                                                             </asp:TemplateField>
@@ -332,7 +349,8 @@
                                 </ContentTemplate>
                             </asp:UpdatePanel>
 
-                            <asp:GridView ID="dg3" CssClass="table table-hover table-light " runat="server" Style="z-index: 10;" AutoGenerateColumns="false" OnRowDataBound="dg3_RowDataBound" OnRowCommand="dg3_RowCommand">
+                            <asp:GridView ID="dg3" CssClass="table table-hover table-light " runat="server" Style="z-index: 10;" AutoGenerateColumns="false" OnRowDataBound="dg3_RowDataBound"
+                                OnRowCommand="dg3_RowCommand" OnSelectedIndexChanged="dg3_SelectedIndexChanged">
 
 
                                 <Columns>
@@ -341,9 +359,17 @@
                                             <asp:Label ID="Label1" runat="server" Text="Numer"></asp:Label>
                                         </HeaderTemplate>
                                         <ItemTemplate>
-                                            <asp:Label ID="Label3" runat="server" Text='<%#Eval("number") %>' ToolTip='<%#Eval("id") %>' Style="font-size: 40px; font-weight: 700;"></asp:Label><br />
-                                            <asp:Label ID="Label4" runat="server" Text='<%#Eval("user") %>' Style="font-size: 10px;"></asp:Label>
-                                            <asp:Label ID="Label5" runat="server" Text='<%#Eval("date", " {0:HH:mm}") %>' Style="font-size: 10px;"></asp:Label>
+                 
+
+                                            <asp:Panel ID="pnc"  runat="server" ToolTip='<%#Eval("color") %>' style="border-radius:0%;box-shadow: 2px 2px 10px 1px rgba(66, 68, 90, 1);">
+                                                <asp:Label ID="Label3" runat="server" Text='<%#Eval("number") %>' ToolTip='<%#Eval("id") %>' Style="font-size: 40px; font-weight: 700;"></asp:Label><br />
+                                                <asp:Label ID="Label4" runat="server" Text='<%#Eval("user") %>' Style="font-size: 10px;"></asp:Label>
+                                                <asp:Label ID="Label5" runat="server" Text='<%#Eval("date", " {0:HH:mm}") %>' Style="font-size: 10px;"></asp:Label>
+                                                <asp:Label ID="lbgroup" runat="server" Text='<%#Eval("groupid") %>' Style="font-size: 1px;visibility:hidden;"></asp:Label>
+                                            </asp:Panel>
+                                           
+                                              
+
                                         </ItemTemplate>
                                     </asp:TemplateField>
 
@@ -352,7 +378,7 @@
                                             <asp:Label ID="Label2" runat="server" Text="Treść"></asp:Label>
                                         </HeaderTemplate>
                                         <ItemTemplate>
-                                            <asp:Label ID="txContent" runat="server" Text='<%#Eval("content") %>' Style="max-width: 100%; word-break: break-all;" rows="10"></asp:Label>
+                                            <asp:Label ID="txContent" runat="server" Text='<%#Eval("content") %>' Style="margin-left:10px; max-width: 100%; word-break: break-all;font-size:20px;" rows="10"></asp:Label>
                                             <asp:Panel ID="pnspin" runat="server" Visible="false" Style="align-items: center; display: flex;">
 
                                                 <div class="spinner-grow text-success" style="opacity: 0.2; width: 10px; height: 10px;"></div>
@@ -371,18 +397,40 @@
                                         </ItemTemplate>
                                     </asp:TemplateField>
 
-                                    <asp:TemplateField ItemStyle-Width="100" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Top">
+                                    <asp:TemplateField ItemStyle-Width="130" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Top">
                                         <HeaderTemplate>
                                         </HeaderTemplate>
                                         <ItemTemplate>
-                                            <asp:ImageButton ID="ImageButton1" ImageUrl="~/images/edit.png" CommandArgument='<%#Eval("status") %>' CommandName='<%#Eval("id") %>' Style="width: 30px; height: 30px;" runat="server" />
+                                            <style>
+                                                .btedit{
+                                                    border-style:solid;
+                                                    border-width:1px;
+                                                    border-radius:30%;
+                                                    padding:8px;
+                                                    background-color:white;
+                                                    transition:all 1s;
+                                                    margin:0px;
+                                                    box-shadow: 6px 7px 20px -12px rgba(66, 68, 90, 1);
+                                                }
+                                                .btedit:hover{
+                                                    border-color:green;
+                                                    background-color:silver;
+                                                    transition:all 1s;
+                                                    padding:2px;
+                                                }
+                                            </style>
+                                            <div style="display:inline-block;">
+                                            <asp:ImageButton ID="ImageButton1" CssClass="btedit" ImageUrl="~/images/edit.png" CommandArgument='<%#Eval("status") %>' ToolTip="Edytuj pozycje" CommandName='<%#Eval("id") %>' Style="width: 50px; height: 50px; cursor:pointer;" runat="server" />
+                                            
+                                            <asp:ImageButton ID="ImageButton2" CssClass="btedit" ImageUrl="~/images/eg.png" CommandArgument='<%#Eval("id") %>' ToolTip="Edytuj grupę pozycji"  CommandName="group"  AlternateText='<%#Eval("groupid") %>' Style="width: 50px; height: 50px; cursor:pointer;" runat="server" />
+                                                </div>
                                         </ItemTemplate>
                                     </asp:TemplateField>
                                 </Columns>
 
 
                             </asp:GridView>
-                            <asp:Timer ID="Timer2" runat="server" Interval="2000" OnTick="Timer2_Tick"></asp:Timer>
+                            <asp:Timer ID="Timer2" runat="server" Interval="10000" OnTick="Timer2_Tick"></asp:Timer>
 
 
                         </ContentTemplate>

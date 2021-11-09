@@ -83,11 +83,12 @@ public class A_Directory
     }
 
     public static DirectoryEntry getDirectoryEntry()
-    { 
-            ADAdminUser = "SVC_Aktyw_Skaner_Wro";
-            ADAdminPassword = "da{rQ,KgC$pTt[!2eGZ6e$Q7=Gs?oX";
+    {
+        ADAdminUser = Erepertorium.Properties.Settings.Default.ADuser;// "SVC_Aktyw_Skaner_Wro";
+        ADAdminPassword = Erepertorium.Properties.Settings.Default.ADpwd; // "da{rQ,KgC$pTt[!2eGZ6e$Q7=Gs?oX";
+        string ldap = Erepertorium.Properties.Settings.Default.LDAPPath; //"LDAP://10.32.30.25/OU=Wroclaw,OU=SkaneryRadiowe,DC=net,DC=pp"
 
-            DirectoryEntry dirEntry = new DirectoryEntry("LDAP://10.32.30.25/OU=Wroclaw,OU=SkaneryRadiowe,DC=net,DC=pp", ADAdminUser, ADAdminPassword, AuthenticationTypes.Secure); // getDirectoryObject("/" + getLDAPDomain())
+            DirectoryEntry dirEntry = new DirectoryEntry(ldap, ADAdminUser, ADAdminPassword, AuthenticationTypes.Secure); // getDirectoryObject("/" + getLDAPDomain())
 
             return dirEntry;    
 
@@ -104,12 +105,14 @@ public class A_Directory
     }
     public static DirEntryProps getDirectoryEntryString()
     {
- 
-            ADAdminUser = "SVC_Aktyw_Skaner_Wro";
-            ADAdminPassword = "da{rQ,KgC$pTt[!2eGZ6e$Q7=Gs?oX";
 
-            DirEntryProps p = new DirEntryProps();
-            p.LDAP = "LDAP://10.32.30.25/OU=Wroclaw,OU=SkaneryRadiowe,DC=net,DC=pp";
+        ADAdminUser = Erepertorium.Properties.Settings.Default.ADuser; // "SVC_Aktyw_Skaner_Wro";
+        ADAdminPassword = Erepertorium.Properties.Settings.Default.ADpwd; // "da{rQ,KgC$pTt[!2eGZ6e$Q7=Gs?oX";
+        string ldap = Erepertorium.Properties.Settings.Default.LDAPPath; //"LDAP://10.32.30.25/OU=Wroclaw,OU=SkaneryRadiowe,DC=net,DC=pp"
+
+
+        DirEntryProps p = new DirEntryProps();
+        p.LDAP = ldap; // "LDAP://10.32.30.25/OU=Wroclaw,OU=SkaneryRadiowe,DC=net,DC=pp";
             p.UserLogin = ADAdminUser;
             p.UserPass = ADAdminPassword;
             p.Secure = AuthenticationTypes.Secure;
