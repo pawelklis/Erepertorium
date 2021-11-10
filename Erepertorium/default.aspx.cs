@@ -108,6 +108,20 @@ date = date.AddDays(1);
 
             dg2.DataSource = dt;
             dg2.DataBind();
+
+            try
+            {
+                if (dg2.Rows.Count > 0)
+                {
+                    TextBox tx = dg2.Rows[0].FindControl("tx1") as TextBox;
+                    tx.Focus();
+                }
+            }
+            catch (Exception)
+            {
+
+            }
+
         }
 
 
@@ -231,6 +245,27 @@ date = date.AddDays(1);
 
             dg3.DataSource = l;
             dg3.DataBind();
+
+
+            try
+            {
+                Task.Run(() => {
+                    foreach(GridViewRow row in dg3.Rows)
+                    {
+                        Label lbgroup = (Label)row.FindControl("lbgroup");
+                        Label lbgroupcount = (Label)row.FindControl("groupcount");
+
+                        List<RegistryType> lf = l.FindAll(x => x.GroupId == lbgroup.Text);
+
+                        lbgroupcount.Text = "Elementów: " + lf.Count + " (" + lf.Last().Number + "-" + lf.First().Number + ")";
+                    }
+                });
+            }
+            catch (Exception)
+            {
+
+            }
+
         }
 
         protected void Timer2_Tick(object sender, EventArgs e)
@@ -292,6 +327,7 @@ date = date.AddDays(1);
                 Label lbuser = (Label)e.Row.FindControl("Label4");
                 Label lb44 = (Label)e.Row.FindControl("Label44");
                 Label lbgroup = (Label)e.Row.FindControl("lbgroup");
+                
                 Panel pnspin = (Panel)e.Row.FindControl("pnspin");
                 Panel panel1 = (Panel)e.Row.FindControl("Panel1");
                 Panel pnc = (Panel)e.Row.FindControl("pnc");
@@ -300,6 +336,7 @@ date = date.AddDays(1);
                 int status = int.Parse(imgbtn.CommandArgument);
 
                 e.Row.Attributes.Add("Name", lbgroup.Text);
+
                 
 
                 if (pnc.ToolTip == "#ffffff")
@@ -394,6 +431,19 @@ date = date.AddDays(1);
                     editModal.Visible = true;
                 }
 
+
+                try
+                {
+                    if (dg4.Rows.Count > 0)
+                    {
+                        TextBox tx = dg4.Rows[0].FindControl("tx1") as TextBox;
+                        tx.Focus();
+                    }
+                }
+                catch (Exception)
+                {
+
+                }
 
 
             }

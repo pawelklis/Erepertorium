@@ -366,6 +366,15 @@
                                     }
                                 }
                             </script>
+                            <style>
+                                .showme {
+                                    visibility:hidden;
+                                }
+
+                                .showhim:hover .showme {
+                                    visibility:visible;
+                                }
+                            </style>
 
                             <asp:GridView ID="dg3" CssClass="table table-hover table-light " runat="server" Style="z-index: 10;" ShowHeader="false" AutoGenerateColumns="false" OnRowDataBound="dg3_RowDataBound"
                                 OnRowCommand="dg3_RowCommand" OnSelectedIndexChanged="dg3_SelectedIndexChanged">
@@ -379,15 +388,19 @@
                                         <ItemTemplate>
                  
 
-                                            <asp:Panel ID="pnc" name='<%#Eval("groupid") %>'  runat="server" ToolTip='<%#Eval("color") %>' style="border-radius:0%;box-shadow: 2px 2px 10px 1px rgba(66, 68, 90, 1);">
-                                                <div onmouseover="Mark('<%#Eval("groupid") %>')" onmouseout="MarkOut('<%#Eval("groupid") %>')">
+                                            <asp:Panel ID="pnc" name='<%#Eval("groupid") %>'   runat="server" ToolTip='<%#Eval("color") %>' style="border-radius:0%;box-shadow: 2px 2px 10px 1px rgba(66, 68, 90, 1);border-radius:0px 15px 0px 15px ;">
+                                                <div class="showhim" onmouseover="Mark('<%#Eval("groupid") %>')" onmouseout="MarkOut('<%#Eval("groupid") %>')">
                                                 <asp:Label ID="Label3" runat="server" Text='<%#Eval("number") %>' ToolTip='<%#Eval("id") %>' Style="font-size: 40px; font-weight: 700;"></asp:Label><br />
                                                 <asp:Label ID="Label4" runat="server" Text='<%#Eval("user") %>' Style="font-size: 10px;"></asp:Label>
                                                 <asp:Label ID="Label5" runat="server" Text='<%#Eval("date", " {0:HH:mm}") %>' Style="font-size: 10px;"></asp:Label>
                                                 <asp:Label ID="lbgroup" runat="server" Text='<%#Eval("groupid") %>' Style="font-size: 1px;visibility:hidden;"></asp:Label>
+                                            <div class="showme">
+                                                <asp:Label ID="groupcount" runat="server" Text="" Style="font-size: 10px;"></asp:Label>
+                                            </div>
                                                 </div>
                                             </asp:Panel>
                                            
+
                                               
 
                                         </ItemTemplate>
